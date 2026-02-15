@@ -97,7 +97,7 @@ ml-assignment-2/
 
 ## Live App
 
-🔗 **Streamlit App:** [Click here to open the app](<your-streamlit-app-url>)
+🔗 **Streamlit App:** [Click here to open the app](https://ml-assignment-2-2025aa05222-prog.streamlit.app/)
 
 ## Technologies Used
 
