@@ -11,6 +11,7 @@ The goal of this project is to build and compare multiple machine learning class
 - **Total Samples:** 1,599
 - **Number of Features:** 11 (all numerical)
 - **Target Variable:** Binary classification — Good (quality >= 7) → 1, Bad (quality < 7) → 0
+- **Class Distribution:** Good wine: 217, Bad wine: 1382
 - **Features:**
   1. Fixed acidity
   2. Volatile acidity
@@ -23,7 +24,7 @@ The goal of this project is to build and compare multiple machine learning class
   9. pH
   10. Sulphates
   11. Alcohol
-- **Train/Test Split:** 80/20 (stratified)
+- **Train/Test Split:** 80/20 (stratified) — Train: 1279, Test: 320
 - **Missing Values:** None
 
 ## Models Used
@@ -34,31 +35,29 @@ All 6 classification models were implemented on the same dataset. Below is the c
 
 | ML Model Name | Accuracy | AUC | Precision | Recall | F1 | MCC |
 |---|---|---|---|---|---|---|
-| Logistic Regression | 0.8937 | 0.8413 | 0.6667 | 0.4000 | 0.5000 | 0.4753 |
-| Decision Tree | 0.8813 | 0.7476 | 0.5455 | 0.4000 | 0.4615 | 0.4115 |
-| kNN | 0.8750 | 0.8380 | 0.5000 | 0.3667 | 0.4231 | 0.3704 |
-| Naive Bayes | 0.8375 | 0.8262 | 0.3846 | 0.5000 | 0.4348 | 0.3647 |
-| Random Forest (Ensemble) | 0.9125 | 0.8980 | 0.7143 | 0.5000 | 0.5882 | 0.5614 |
-| XGBoost (Ensemble) | 0.9062 | 0.8800 | 0.7000 | 0.4667 | 0.5600 | 0.5288 |
-
-> **Note:** Exact metric values may vary slightly depending on the execution environment and random seed behavior.
+| Logistic Regression | 0.8938 | 0.8804 | 0.6957 | 0.3721 | 0.4848 | 0.4580 |
+| Decision Tree | 0.9187 | 0.8670 | 0.7297 | 0.6279 | 0.6750 | 0.6312 |
+| kNN | 0.8938 | 0.8237 | 0.6667 | 0.4186 | 0.5143 | 0.4738 |
+| Naive Bayes | 0.8594 | 0.8517 | 0.4844 | 0.7209 | 0.5794 | 0.5131 |
+| Random Forest (Ensemble) | 0.9375 | 0.9547 | 0.9259 | 0.5814 | 0.7143 | 0.7045 |
+| XGBoost (Ensemble) | 0.9406 | 0.9422 | 0.8750 | 0.6512 | 0.7467 | 0.7239 |
 
 ### Model Performance Observations
 
 | ML Model Name | Observation about model performance |
 |---|---|
-| Logistic Regression | Logistic Regression provides a solid baseline with high accuracy (0.89) and good AUC (0.84). It performs well on this dataset because the decision boundary between good and bad wines can be approximated linearly. However, its recall is moderate (0.40), meaning it misses some good wines. |
-| Decision Tree | Decision Tree achieves decent accuracy (0.88) but has the lowest AUC (0.75) among all models, indicating it struggles with ranking predictions. It tends to overfit on specific patterns in the training data, even with max_depth=5 regularization. It captures non-linear relationships but lacks generalization. |
-| kNN | K-Nearest Neighbors shows moderate performance across all metrics. Its accuracy (0.875) is comparable to Decision Tree. The distance-based approach is sensitive to feature scaling (handled via StandardScaler). Its lower precision and recall suggest that the decision boundary in high-dimensional space is not clearly defined by nearest neighbors. |
-| Naive Bayes | Naive Bayes has the lowest accuracy (0.84) but interestingly achieves the highest recall (0.50) among non-ensemble models, meaning it identifies more actual good wines. The naive independence assumption between features limits its precision. It works as a quick probabilistic baseline but is not ideal when features are correlated, as is the case with wine chemistry. |
-| Random Forest (Ensemble) | Random Forest achieves the best overall performance with the highest accuracy (0.91), AUC (0.90), precision (0.71), F1 (0.59), and MCC (0.56). As an ensemble of decision trees, it reduces overfitting through bagging and feature randomization. It handles the imbalanced dataset better than individual models and captures complex non-linear interactions between features. |
-| XGBoost (Ensemble) | XGBoost is the second-best model with accuracy of 0.91 and AUC of 0.88. Its gradient boosting approach sequentially corrects errors from previous trees, resulting in strong predictive performance. It is slightly behind Random Forest on this specific dataset, likely because the dataset size is moderate and Random Forest's bagging approach provides sufficient regularization. |
+| Logistic Regression | Logistic Regression provides a solid baseline with accuracy of 0.8938 and AUC of 0.8804. It performs well because the decision boundary between good and bad wines can be approximated linearly. However, recall is low (0.3721) meaning it misses many good wines. |
+| Decision Tree | Decision Tree achieves good accuracy (0.9187) and strong recall (0.6279) compared to simpler models. It captures non-linear patterns in the data effectively. AUC of 0.8670 shows reasonable ranking ability, though it can overfit on training data. |
+| kNN | K-Nearest Neighbors shows moderate performance with accuracy 0.8938 and AUC 0.8237. The distance-based approach is sensitive to feature scaling (handled via StandardScaler). Its recall (0.4186) suggests the decision boundary is not well-defined by nearest neighbors. |
+| Naive Bayes | Naive Bayes achieves the highest recall (0.7209) among non-ensemble models, correctly identifying more good wines. However, its precision is lowest (0.4844) due to the naive independence assumption between correlated wine chemistry features. Good as a probabilistic baseline. |
+| Random Forest (Ensemble) | Random Forest achieves excellent accuracy (0.9375) and the highest AUC (0.9547) with outstanding precision (0.9259). It reduces overfitting through bagging and feature randomization. MCC of 0.7045 confirms strong balanced performance on this imbalanced dataset. |
+| XGBoost (Ensemble) | XGBoost is the best model overall with highest accuracy (0.9406), best recall among high-precision models (0.6512), highest F1 (0.7467) and highest MCC (0.7239). Its gradient boosting approach sequentially corrects errors, giving the best balance of precision and recall. |
 
 ## How to Run Locally
 
 ```bash
 # Clone the repository
-git clone https://github.com/zaifsitemt/ml-assignment-2.git
+git clone https://github.com/2025aa05222-prog/ml-assignment-2.git
 cd ml-assignment-2
 
 # Install dependencies
@@ -97,7 +96,7 @@ ml-assignment-2/
 
 ## Live App
 
-🔗 **Streamlit App:** [Click here to open the app](https://ml-assignment-2-2025aa05222-prog.streamlit.app/)
+🔗 **Streamlit App:** [https://ml-assignment-2-2025aa05222-prog.streamlit.app/]
 
 ## Technologies Used
 
